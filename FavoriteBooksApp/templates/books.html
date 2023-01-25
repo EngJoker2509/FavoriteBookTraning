@@ -1,0 +1,54 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap_min.css' %}">
+    <title>Books</title>
+</head>
+
+<style>
+    .all_books {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .title_block {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+</style>
+
+<body>
+    <div>
+        <div class="title_block">
+            <h1 class="font-weight-normal font-italic">{{ request.session.username }}</h1>
+            <a href="{% url 'FavoriteBooksApp:destroy' %}" class="font-weight-normal font-italic">Log Out</a>
+        </div>
+        <hr>
+        <div class="all_books">
+            <div>
+                <h1 class="font-weight-normal font-italic">( Book title :-{{ books.title }} )</h1>
+                <h2 class="font-weight-normal font-italic">( added by :- {{ books.uploaded_by.first_name }} )</h2>
+                <h2 class="font-weight-normal font-italic">( added on :- {{ books.created_at }} )</h2>
+                <h2 class="font-weight-normal font-italic">( last updated on :- {{ books.updated_at }} )</h2>
+                <h2 class="font-weight-normal font-italic">( Desctiopn :- {{ books.desc }} )</h2>
+            </div>
+            <div>
+                <ul>
+                <h1 class="font-weight-bold font-italic">People Who liked this book :-</h1>
+                {% for user in book_liked_by_users %}
+                <li><h1 class="font-weight-normal font-italic">{{ user.first_name }}</h1></li>
+                {% endfor %}
+                <a href="{% url 'FavoriteBooksApp:addbooks' books.id %}" class="font-weight-bold font-italic">Add to faviorte !</a>
+            </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

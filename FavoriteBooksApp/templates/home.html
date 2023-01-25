@@ -1,0 +1,57 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap_min.css' %}">
+    <title>Books</title>
+</head>
+<style>
+    .title_block {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .body{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+</style>
+
+<body>
+    <div class="title_block">
+        <h1 class="font-weight-normal font-italic">Welcome, {{ request.session.username }}</h1>
+        <a href="{% url 'FavoriteBooksApp:destroy' %}" class="btn">Log Out</a>
+    </div>
+    <div class="body">
+        <div>
+        <form method="post" action="{% url 'FavoriteBooksApp:home' %}">
+            {% csrf_token %}
+            <h1 class="font-weight-normal font-italic">Add a Favorite Book :-</h1>
+            <fieldset>
+                <div class="form-group">
+                    <label for="disabledTextInput" class="font-weight-normal font-italic">Title :-</label>
+                    <input type="text" name="title" class="form-control" placeholder="title">
+                </div>
+                <div class="form-group">
+                    <label for="disabledTextInput" class="font-weight-normal font-italic">Description :-</label>
+                    <input type="text" name="desc" class="form-control" placeholder="desc">
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+    </div>
+        <div class="all_books">
+            <h1 class="font-weight-normal font-italic">All Books</h1>
+            {% for book in all_books %}
+            <h6 class="font-weight-normal font-italic">Book Title :-<a href="{% url 'FavoriteBooksApp:books' book.id %}">{{ book.title }}</a></h6>
+            <h6 class="font-weight-normal font-italic">( added by {{ book.uploaded_by.first_name }} )</h6>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>
